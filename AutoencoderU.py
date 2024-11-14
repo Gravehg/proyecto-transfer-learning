@@ -3,12 +3,12 @@ import torch.nn as nn
 import pytorch_lightning as pl
 
 class Encoder(nn.Module):
-    def __init__(self):
+    def __init__(self, latent_dim):
         super(Encoder, self).__init__()
         self.enc1 = self.conv_block(3,64)
         self.enc2 = self.conv_block(64,128)
         self.enc3 = self.conv_block(128,256)
-        self.enc4 = self.conv_block(256, 512)
+        self.enc4 = self.conv_block(256, latent_dim)
     
     def conv_block(self,in_channels, out_channels):
         return nn.Sequential(
@@ -57,9 +57,9 @@ class Decoder(nn.Module):
     
 
 class AutoEncoder(pl.LightningModule):
-    def __init__(self, lr):
+    def __init__(self, lr, latent_dim):
         super(AutoEncoder,self).__init__()
-        self.encoder = Encoder()
+        self.encoder = Encoder(latent_dim)
         self.decoder = Decoder()
         self.lr = lr
         self.loss_fn = nn.MSELoss
