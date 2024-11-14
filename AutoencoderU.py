@@ -22,7 +22,7 @@ class Encoder(nn.Module):
         enc1 = self.enc1(x)
         enc2 = self.enc2(nn.MaxPool2d(2)(enc1))
         enc3 = self.enc3(nn.MaxPool2d(2)(enc2))
-        enc4 = self.enc4(nn.MaxPool2d(2)(enc3))
+        enc4 = self.enc4(nn.MaxPool2d(2)(enc3)) #Tamanio 28x28x512
         return enc4, [enc1, enc2, enc3]
     
 class Decoder(nn.Module):
