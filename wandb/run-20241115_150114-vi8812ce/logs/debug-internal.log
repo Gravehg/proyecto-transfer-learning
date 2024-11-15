@@ -1,0 +1,9 @@
+{"time":"2024-11-15T15:01:14.946215-06:00","level":"INFO","msg":"using version","core version":"0.18.7"}
+{"time":"2024-11-15T15:01:14.946215-06:00","level":"INFO","msg":"created symlink","path":"wandb\\run-20241115_150114-vi8812ce\\logs\\debug-core.log"}
+{"time":"2024-11-15T15:01:15.139234-06:00","level":"INFO","msg":"created new stream","id":"vi8812ce"}
+{"time":"2024-11-15T15:01:15.1397369-06:00","level":"INFO","msg":"sender: started","stream_id":"vi8812ce"}
+{"time":"2024-11-15T15:01:15.1397683-06:00","level":"INFO","msg":"writer: Do: started","stream_id":"vi8812ce"}
+{"time":"2024-11-15T15:01:15.1397683-06:00","level":"INFO","msg":"stream: started","id":"vi8812ce"}
+{"time":"2024-11-15T15:01:15.1397683-06:00","level":"INFO","msg":"handler: started","stream_id":"vi8812ce"}
+{"time":"2024-11-15T15:01:15.6376804-06:00","level":"INFO","msg":"Starting system monitor"}
+{"time":"2024-11-15T15:01:22.8510443-06:00","level":"INFO","msg":"Pausing system monitor"}

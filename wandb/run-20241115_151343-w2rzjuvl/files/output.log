@@ -1,0 +1,86 @@
+LOCAL_RANK: 0 - CUDA_VISIBLE_DEVICES: [0]
+
+  | Name    | Type    | Params | Mode
+--------------------------------------------
+0 | encoder | Encoder | 4.7 M  | train
+1 | decoder | Decoder | 3.2 M  | train
+2 | loss_fn | MSELoss | 0      | train
+--------------------------------------------
+7.9 M     Trainable params
+0         Non-trainable params
+7.9 M     Total params
+31.445    Total estimated model params size (MB)
+42        Modules in train mode
+0         Modules in eval mode
+Sanity Checking DataLoader 0:   0%|          | 0/2 [00:00<?, ?it/s]Shape after enc1: torch.Size([64, 64, 224, 224])
+c:\ProgramData\miniconda3\Lib\site-packages\pytorch_lightning\trainer\connectors\data_connector.py:419: Consider setting `persistent_workers=True` in 'val_dataloader' to speed up the dataloader worker initialization.
+Shape after enc2: torch.Size([64, 128, 112, 112])
+Shape after enc3: torch.Size([64, 256, 56, 56])
+Shape after enc4: torch.Size([64, 512, 28, 28])
+Error executing job with overrides: []
+Traceback (most recent call last):
+  File "C:\Users\Administrator\AppData\Local\Temp\ipykernel_26256\3955125747.py", line 32, in trainining_autoencoder_ninety_10
+    trainer.fit(autoencoder,train_dataloaders=data_manager.unsupervised_train_loader(),
+  File "c:\ProgramData\miniconda3\Lib\site-packages\pytorch_lightning\trainer\trainer.py", line 538, in fit
+    call._call_and_handle_interrupt(
+  File "c:\ProgramData\miniconda3\Lib\site-packages\pytorch_lightning\trainer\call.py", line 47, in _call_and_handle_interrupt
+    return trainer_fn(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "c:\ProgramData\miniconda3\Lib\site-packages\pytorch_lightning\trainer\trainer.py", line 574, in _fit_impl
+    self._run(model, ckpt_path=ckpt_path)
+  File "c:\ProgramData\miniconda3\Lib\site-packages\pytorch_lightning\trainer\trainer.py", line 981, in _run
+    results = self._run_stage()
+              ^^^^^^^^^^^^^^^^^
+  File "c:\ProgramData\miniconda3\Lib\site-packages\pytorch_lightning\trainer\trainer.py", line 1023, in _run_stage
+    self._run_sanity_check()
+  File "c:\ProgramData\miniconda3\Lib\site-packages\pytorch_lightning\trainer\trainer.py", line 1052, in _run_sanity_check
+    val_loop.run()
+  File "c:\ProgramData\miniconda3\Lib\site-packages\pytorch_lightning\loops\utilities.py", line 178, in _decorator
+    return loop_run(self, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "c:\ProgramData\miniconda3\Lib\site-packages\pytorch_lightning\loops\evaluation_loop.py", line 135, in run
+    self._evaluation_step(batch, batch_idx, dataloader_idx, dataloader_iter)
+  File "c:\ProgramData\miniconda3\Lib\site-packages\pytorch_lightning\loops\evaluation_loop.py", line 396, in _evaluation_step
+    output = call._call_strategy_hook(trainer, hook_name, *step_args)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "c:\ProgramData\miniconda3\Lib\site-packages\pytorch_lightning\trainer\call.py", line 319, in _call_strategy_hook
+    output = fn(*args, **kwargs)
+             ^^^^^^^^^^^^^^^^^^^
+  File "c:\ProgramData\miniconda3\Lib\site-packages\pytorch_lightning\strategies\strategy.py", line 411, in validation_step
+    return self.lightning_module.validation_step(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "e:\proyecto-transfer-learning\AutoencoderU.py", line 89, in validation_step
+    x_hat = self(x)
+            ^^^^^^^
+  File "c:\ProgramData\miniconda3\Lib\site-packages\torch\nn\modules\module.py", line 1553, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "c:\ProgramData\miniconda3\Lib\site-packages\torch\nn\modules\module.py", line 1562, in _call_impl
+    return forward_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "e:\proyecto-transfer-learning\AutoencoderU.py", line 78, in forward
+    return self.decoder(enc_output,skips)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "c:\ProgramData\miniconda3\Lib\site-packages\torch\nn\modules\module.py", line 1553, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "c:\ProgramData\miniconda3\Lib\site-packages\torch\nn\modules\module.py", line 1562, in _call_impl
+    return forward_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "e:\proyecto-transfer-learning\AutoencoderU.py", line 57, in forward
+    dec3 = self.upconv3(dec4)
+         ^^^^^^^^^^^^^^^^^^
+  File "c:\ProgramData\miniconda3\Lib\site-packages\torch\nn\modules\module.py", line 1553, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "c:\ProgramData\miniconda3\Lib\site-packages\torch\nn\modules\module.py", line 1562, in _call_impl
+    return forward_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "c:\ProgramData\miniconda3\Lib\site-packages\torch\nn\modules\conv.py", line 948, in forward
+    return F.conv_transpose2d(
+           ^^^^^^^^^^^^^^^^^^^
+RuntimeError: Given transposed=1, weight of size [512, 128, 2, 2], expected input[64, 256, 56, 56] to have 512 channels, but got 256 channels instead
+
+Set the environment variable HYDRA_FULL_ERROR=1 for a complete stack trace.
+c:\ProgramData\miniconda3\Lib\site-packages\IPython\core\interactiveshell.py:3585: UserWarning: To exit: use 'exit', 'quit', or Ctrl-D.
+  warn("To exit: use 'exit', 'quit', or Ctrl-D.", stacklevel=1)

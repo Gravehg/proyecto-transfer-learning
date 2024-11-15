@@ -6,13 +6,13 @@ import pytorch_lightning as pl
 
 
 class ButterflyDataModule(pl.LightningDataModule):
-    def __init__ (self, data_dir, batch_size,needs_split,split_percentage,num_workers=0):
+    def __init__ (self, data_dir, batch_size,needs_split,split_ratio,num_workers=0):
         super().__init__()
         self.data_dir = data_dir
         self.batch_size = batch_size
         self.num_workers = num_workers
         self.needs_split  = needs_split
-        self.split_percentage = split_percentage
+        self.split_ratio= split_ratio
 
     def setup(self, stage=None):
         transform = transforms.Compose([
@@ -25,10 +25,9 @@ class ButterflyDataModule(pl.LightningDataModule):
         if self.needs_split:
             unsupervised_size = int(self.split_ratio * len(self.train_dataset))
             supervised_size = len(self.train_dataset) - unsupervised_size
-
-        self.unsupervised_train_dataset, self.supervised_train_dataset = random_split(
-            self.train_dataset, [unsupervised_size, supervised_size]
-        )
+            self.unsupervised_train_dataset, self.supervised_train_dataset = random_split(
+                self.train_dataset, [unsupervised_size, supervised_size]
+            )
     
     def unsupervised_train_loader(self):
         return DataLoader(self.unsupervised_train_dataset, batch_size=self.batch_size, num_workers=self.num_workers,
@@ -44,6 +43,6 @@ class ButterflyDataModule(pl.LightningDataModule):
 
     def val_dataloader(self):
         return DataLoader(self.val_dataset, batch_size=self.batch_size, num_workers=self.num_workers)
-    
+    #USAR PARA HACER LA VALIDACION EN EL UNET
     def test_dataloader(self):
         return DataLoader(self.test_dataset, batch_size=self.batch_size, num_workers=self.num_workers)

@@ -19,7 +19,13 @@ class Dataset:
     DATA_DIR: str
 
 @dataclass
+class Split:
+    NEEDS_SPLIT: bool
+    SPLIT_RATIO: float
+
+@dataclass
 class Configuration:
     MODEL: Model
     TRAIN: Train
     DATASET: Dataset
+    SPLIT: Split

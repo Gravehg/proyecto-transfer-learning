@@ -1,0 +1,5 @@
+defaults:
+  - TRAIN: experiment_1
+  - MODEL: model_1
+  - DATASET: dataset_1
+  - SPLIT: split_1
