@@ -6,3 +6,5 @@
 **/Butterflies/
 **/wandb/
 encoder_weights_ninety
+classifier_ninety_ten.pth
+classifier_ninety_ten_unfreezed.pth
