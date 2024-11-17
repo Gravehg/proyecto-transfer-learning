@@ -1,6 +1,7 @@
 import torch.nn as nn
 import torch.optim
 import pytorch_lightning as pl
+import torchmetrics
 
 class Classifier(pl.LightningModule):
     def __init__(self, encoder, lr, num_classes, latent_dim, isFreezed, encoder_path):
@@ -17,6 +18,10 @@ class Classifier(pl.LightningModule):
         self.lr = lr
         self.loss_function = nn.CrossEntropyLoss()
         self.encoder_path = encoder_path
+        self.accuracy = torchmetrics.Accuracy(task="multiclass", num_classes=num_classes)
+        self.precision = torchmetrics.Precision(task="multiclass", num_classes=num_classes)
+        self.recall = torchmetrics.Recall(task="multiclass", num_classes=num_classes)
+        self.f1_score = torchmetrics.F1Score(task="multiclass", num_classes=num_classes)
 
     def forward(self, x):
         with torch.no_grad() if not self.training else torch.enable_grad():
@@ -44,10 +49,23 @@ class Classifier(pl.LightningModule):
         return loss
     
     def test_step(self, batch, batch_idx):
-        x, _ = batch
-        x_hat = self(x)
-        loss = self.loss_function(x_hat, x)
+        x, y = batch
+        y_hat = self(x)
+        loss = self.loss_function(y_hat, y)
+
+   
+        acc = self.accuracy(y_hat, y)
+        precision = self.precision(y_hat, y)
+        recall = self.recall(y_hat, y)
+        f1 = self.f1_score(y_hat, y)
+
+       
         self.log("cl_test_loss", loss, on_step=True, on_epoch=True, prog_bar=True, logger=True)
+        self.log("cl_test_accuracy", acc, on_step=True, on_epoch=True, prog_bar=True, logger=True)
+        self.log("cl_test_precision", precision, on_step=True, on_epoch=True, prog_bar=True, logger=True)
+        self.log("cl_test_recall", recall, on_step=True, on_epoch=True, prog_bar=True, logger=True)
+        self.log("cl_test_f1", f1, on_step=True, on_epoch=True, prog_bar=True, logger=True)
+
         return loss
     
     def configure_optimizers(self):

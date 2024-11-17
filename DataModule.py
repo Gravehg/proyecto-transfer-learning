@@ -25,6 +25,7 @@ class ButterflyDataModule(pl.LightningDataModule):
         if self.needs_split:
             unsupervised_size = int(self.split_ratio * len(self.train_dataset))
             supervised_size = len(self.train_dataset) - unsupervised_size
+            print(unsupervised_size, supervised_size)
             self.unsupervised_train_dataset, self.supervised_train_dataset = random_split(
                 self.train_dataset, [unsupervised_size, supervised_size]
             )

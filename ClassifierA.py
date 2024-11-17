@@ -1,6 +1,7 @@
 import torch.nn as nn
 import torch.optim
 import pytorch_lightning as pl
+import torchmetrics
 
 class ClassifierFromZero(pl.LightningModule):
     def __init__(self, lr, num_classes, latent_dim,model_path):
@@ -17,6 +18,11 @@ class ClassifierFromZero(pl.LightningModule):
         self.fc1 = nn.Linear(latent_dim * 28 * 28, 256)
         self.fc2 = nn.Linear(256, 128)
         self.fc3 = nn.Linear(128, num_classes)
+        self.loss_function = nn.CrossEntropyLoss()
+        self.accuracy = torchmetrics.Accuracy(task="multiclass", num_classes=num_classes)
+        self.precision = torchmetrics.Precision(task="multiclass", num_classes=num_classes)
+        self.recall = torchmetrics.Recall(task="multiclass", num_classes=num_classes)
+        self.f1_score = torchmetrics.F1Score(task="multiclass", num_classes=num_classes)
     
     def forward(self,x):
         x = self.conv1(x) #224x224x64
@@ -30,6 +36,7 @@ class ClassifierFromZero(pl.LightningModule):
         x = self.max_pool(x) #28x28x256
         x = self.conv4(x) #28x28x512
         x = self.relu(x)
+        x = x = x.view(x.size(0), -1)
         x = self.fc1(x)
         x = self.relu(x)  # Apply ReLU activation
         x = self.fc2(x)
@@ -52,10 +59,21 @@ class ClassifierFromZero(pl.LightningModule):
         return loss
     
     def test_step(self, batch, batch_idx):
-        x, _ = batch
-        x_hat = self(x)
-        loss = self.loss_function(x_hat, x)
+        x, y = batch
+        y_hat = self(x)
+        loss = self.loss_function(y_hat, y)
+
+        acc = self.accuracy(y_hat, y)
+        precision = self.precision(y_hat, y)
+        recall = self.recall(y_hat, y)
+        f1 = self.f1_score(y_hat, y)
+
         self.log("cl_test_loss", loss, on_step=True, on_epoch=True, prog_bar=True, logger=True)
+        self.log("cl_test_accuracy", acc, on_step=True, on_epoch=True, prog_bar=True, logger=True)
+        self.log("cl_test_precision", precision, on_step=True, on_epoch=True, prog_bar=True, logger=True)
+        self.log("cl_test_recall", recall, on_step=True, on_epoch=True, prog_bar=True, logger=True)
+        self.log("cl_test_f1", f1, on_step=True, on_epoch=True, prog_bar=True, logger=True)
+
         return loss
     
     def configure_optimizers(self):
