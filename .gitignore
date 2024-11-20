@@ -6,5 +6,11 @@
 **/Butterflies/
 **outputs
 
-/wandb/
 /project-three-autoencoder/
+**/wandb/
+encoder_weights_ninety.pth
+classifier_ninety_ten.pth
+classifier_ninety_ten_unfreezed.pth
+encoder_weights_seventy.pth
+classifier_seventy_thirty_freezed.pth
+classifier_seventy_thirty_unfreezed.pth

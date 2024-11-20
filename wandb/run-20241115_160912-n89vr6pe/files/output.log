@@ -12,8 +12,9 @@ LOCAL_RANK: 0 - CUDA_VISIBLE_DEVICES: [0]
 30.790    Total estimated model params size (MB)
 42        Modules in train mode
 0         Modules in eval mode
-Epoch 2:  31%|███       | 11/36 [08:09<18:32,  0.02it/s, v_num=r6pe, autoencoder_train_loss_step=0.00477, autoencoder_val_loss_step=0.00581, autoencoder_val_loss_epoch=0.00667, autoencoder_train_loss_epoch=0.0104]
+Epoch 19: 100%|██████████| 36/36 [30:22<00:00,  0.02it/s, v_num=r6pe, autoencoder_train_loss_step=8.83e-5, autoencoder_val_loss_step=0.000104, autoencoder_val_loss_epoch=0.000111, autoencoder_train_loss_epoch=0.00012]  
 c:\ProgramData\miniconda3\Lib\site-packages\pytorch_lightning\trainer\connectors\data_connector.py:419: Consider setting `persistent_workers=True` in 'val_dataloader' to speed up the dataloader worker initialization.
 c:\ProgramData\miniconda3\Lib\site-packages\pytorch_lightning\trainer\connectors\data_connector.py:419: Consider setting `persistent_workers=True` in 'train_dataloader' to speed up the dataloader worker initialization.
 c:\ProgramData\miniconda3\Lib\site-packages\pytorch_lightning\loops\fit_loop.py:298: The number of training batches (36) is smaller than the logging interval Trainer(log_every_n_steps=50). Set a lower value for log_every_n_steps if you want to see logs for the training epoch.
-                                                                      
+Encoder weights saved to encoder_weights.pth                          
+`Trainer.fit` stopped: `max_epochs=20` reached.

@@ -6,3 +6,15 @@
 {"time":"2024-11-15T16:09:12.4577727-06:00","level":"INFO","msg":"sender: started","stream_id":"n89vr6pe"}
 {"time":"2024-11-15T16:09:12.4577727-06:00","level":"INFO","msg":"handler: started","stream_id":"n89vr6pe"}
 {"time":"2024-11-15T16:09:12.8980756-06:00","level":"INFO","msg":"Starting system monitor"}
+{"time":"2024-11-16T02:07:00.9326446-06:00","level":"INFO","msg":"Stopping system monitor"}
+{"time":"2024-11-16T02:07:00.9428128-06:00","level":"INFO","msg":"Stopped system monitor"}
+{"time":"2024-11-16T02:07:02.0007827-06:00","level":"INFO","msg":"handler: operation stats","stats":{"operations":[{"desc":"uploading artifact model-n89vr6pe","runtime_seconds":1.1805611,"subtasks":[{"desc":"model.ckpt","runtime_seconds":0.6600636,"progress":"4.9MB/88.1MB"}]}],"total_operations":1}}
+{"time":"2024-11-16T02:07:10.4441912-06:00","level":"WARN","msg":"No job ingredients found, not creating job artifact"}
+{"time":"2024-11-16T02:07:10.4447236-06:00","level":"WARN","msg":"No source type found, not creating job artifact"}
+{"time":"2024-11-16T02:07:10.4447236-06:00","level":"INFO","msg":"sender: sendDefer: no job artifact to save"}
+{"time":"2024-11-16T02:07:10.4963953-06:00","level":"INFO","msg":"fileTransfer: Close: file transfer manager closed"}
+{"time":"2024-11-16T02:07:11.8328397-06:00","level":"INFO","msg":"stream: closing","id":"n89vr6pe"}
+{"time":"2024-11-16T02:07:11.8328397-06:00","level":"INFO","msg":"writer: Close: closed","stream_id":"n89vr6pe"}
+{"time":"2024-11-16T02:07:11.8336617-06:00","level":"INFO","msg":"handler: closed","stream_id":"n89vr6pe"}
+{"time":"2024-11-16T02:07:11.8336617-06:00","level":"INFO","msg":"sender: closed","stream_id":"n89vr6pe"}
+{"time":"2024-11-16T02:07:11.8336617-06:00","level":"INFO","msg":"stream: closed","id":"n89vr6pe"}
