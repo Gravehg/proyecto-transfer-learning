@@ -4,9 +4,12 @@ import torch.nn.functional as F
 import pytorch_lightning as L
 import matplotlib.pyplot as plt
 import torchvision
+import wandb
+
+wandb.login()
 
 class DenoisingAutoEncoder(L.LightningModule):
-    def __init__(self,input_size,latent_dim,lr):
+    def __init__(self,latent_dim,lr):
         super().__init__()
         self.encoder = nn.Sequential(
             nn.Conv2d(3,64,kernel_size=4,stride=2,padding=1), #224x224 -> 112x112
@@ -24,7 +27,7 @@ class DenoisingAutoEncoder(L.LightningModule):
         )
         
         self.decoder = nn.Sequential(
-            nn.linear(latent_dim,latent_dim*7*7),
+            nn.Linear(latent_dim,latent_dim*7*7),
             nn.ReLU(),
             nn.Unflatten(1,(latent_dim,7,7)),
             nn.ConvTranspose2d(latent_dim,512,kernel_size=4,stride=2,padding=1), #7x7 -> 14x14
@@ -41,6 +44,10 @@ class DenoisingAutoEncoder(L.LightningModule):
         self.lr = lr
         self.reconstructed_images = []
         self.original_images = []
+
+    def encode(self,x):
+        z = self.encoder(x)
+        return z
 
     def forward(self,x):
         embedding = self.encoder(x)
@@ -82,8 +89,12 @@ class DenoisingAutoEncoder(L.LightningModule):
     def on_validation_epoch_end(self):
         grid_original = torchvision.utils.make_grid(self.original_images)# Crea una cuadricula con las imagenes originales
         grid_reconstructed = torchvision.utils.make_grid(self.reconstructed_images)
-        self.logger.experiment.add_image("original",grid_original,self.current_epoch)
-        self.logger.experiment.add_image("reconstructed",grid_reconstructed,self.current_epoch)
+
+        self.logger.experiment.log({
+            "original_images": [wandb.Image(grid_original, caption="Original Images")],
+            "reconstructed_images": [wandb.Image(grid_reconstructed, caption="Reconstructed Images")],
+            "epoch": self.current_epoch
+        })
 
     
 

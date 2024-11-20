@@ -5,3 +5,6 @@
 /Butterflies/
 **/Butterflies/
 **outputs
+
+/wandb/
+/project-three-autoencoder/
