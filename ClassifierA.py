@@ -2,6 +2,7 @@ import torch.nn as nn
 import torch.optim
 import pytorch_lightning as pl
 import torchmetrics
+import numpy as np
 
 class ClassifierFromZero(pl.LightningModule):
     def __init__(self, lr, num_classes, latent_dim,model_path):
@@ -23,6 +24,7 @@ class ClassifierFromZero(pl.LightningModule):
         self.precision = torchmetrics.Precision(task="multiclass", num_classes=num_classes)
         self.recall = torchmetrics.Recall(task="multiclass", num_classes=num_classes)
         self.f1_score = torchmetrics.F1Score(task="multiclass", num_classes=num_classes)
+        self.test_metrics = {"loss": [], "accuracy": [], "precision": [], "recall": [], "f1": []}
     
     def forward(self,x):
         x = self.conv1(x) #224x224x64
@@ -68,6 +70,13 @@ class ClassifierFromZero(pl.LightningModule):
         recall = self.recall(y_hat, y)
         f1 = self.f1_score(y_hat, y)
 
+        self.test_metrics["loss"].append(loss.item())
+        self.test_metrics["accuracy"].append(acc.item())
+        self.test_metrics["precision"].append(precision.item())
+        self.test_metrics["recall"].append(recall.item())
+        self.test_metrics["f1"].append(f1.item())
+
+
         self.log("cl_test_loss", loss, on_step=True, on_epoch=True, prog_bar=True, logger=True)
         self.log("cl_test_accuracy", acc, on_step=True, on_epoch=True, prog_bar=True, logger=True)
         self.log("cl_test_precision", precision, on_step=True, on_epoch=True, prog_bar=True, logger=True)
@@ -75,6 +84,23 @@ class ClassifierFromZero(pl.LightningModule):
         self.log("cl_test_f1", f1, on_step=True, on_epoch=True, prog_bar=True, logger=True)
 
         return loss
+    
+    def on_test_epoch_end(self):
+        # Calculate averages
+        avg_loss = np.mean(self.test_metrics["loss"])
+        avg_accuracy = np.mean(self.test_metrics["accuracy"])
+        avg_precision = np.mean(self.test_metrics["precision"])
+        avg_recall = np.mean(self.test_metrics["recall"])
+        avg_f1 = np.mean(self.test_metrics["f1"])
+
+
+        self.log("avg_test_loss", avg_loss, prog_bar=True, logger=True)
+        self.log("avg_test_accuracy", avg_accuracy, prog_bar=True, logger=True)
+        self.log("avg_test_precision", avg_precision, prog_bar=True, logger=True)
+        self.log("avg_test_recall", avg_recall, prog_bar=True, logger=True)
+        self.log("avg_test_f1", avg_f1, prog_bar=True, logger=True)
+
+        self.test_metrics = {"loss": [], "accuracy": [], "precision": [], "recall": [], "f1": []}
     
     def configure_optimizers(self):
         return torch.optim.Adam(self.parameters(), lr=self.lr)
