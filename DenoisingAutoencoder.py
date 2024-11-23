@@ -90,11 +90,11 @@ class DenoisingAutoEncoder(L.LightningModule):
         grid_original = torchvision.utils.make_grid(self.original_images)# Crea una cuadricula con las imagenes originales
         grid_reconstructed = torchvision.utils.make_grid(self.reconstructed_images)
 
-        # self.logger.experiment.log({
-        #     "original_images": [wandb.Image(grid_original, caption="Original Images")],
-        #     "reconstructed_images": [wandb.Image(grid_reconstructed, caption="Reconstructed Images")],
-        #     "epoch": self.current_epoch
-        # })
+        self.logger.experiment.log({
+            "original_images": [wandb.Image(grid_original, caption="Original Images")],
+            "reconstructed_images": [wandb.Image(grid_reconstructed, caption="Reconstructed Images")],
+            "epoch": self.current_epoch
+        })
 
     
 
